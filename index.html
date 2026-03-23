@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three.js Boilerplate</title>
+    <title>Procedural Forest Generator</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: "Avenir Next", "Segoe UI", sans-serif;
         }
 
-        html,
         body {
-            width: 100%;
-            height: 100%;
+            min-height: 100vh;
             overflow: hidden;
-            background: #f8f6f1;
+            background:
+                radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 28%),
+                linear-gradient(180deg, #dce9d6 0%, #cedfc6 100%);
+            color: #1f261b;
         }
 
         .render-view {
@@ -24,13 +26,46 @@
             height: 100vh;
         }
 
+        .lil-gui {
+            --background-color: rgba(243, 240, 233, 0.92);
+            --title-background-color: rgba(217, 227, 208, 0.94);
+            --widget-color: rgba(227, 233, 219, 0.98);
+            --hover-color: rgba(206, 220, 194, 0.98);
+            --focus-color: rgba(158, 189, 140, 0.98);
+            --text-color: #26311e;
+            --number-color: #35522f;
+            --string-color: #35522f;
+            --padding: 8px;
+            --widget-border-radius: 8px;
+            --width: 300px;
+            z-index: 3;
+        }
+
+        .lil-gui.autoPlace {
+            top: 18px;
+            right: 18px;
+            left: auto;
+        }
+
         canvas {
             display: block;
+        }
+
+        @media (max-width: 720px) {
+            .lil-gui {
+                --width: min(280px, calc(100vw - 24px));
+            }
+
+            .lil-gui.autoPlace {
+                top: 12px;
+                right: 12px;
+            }
+
         }
     </style>
 </head>
 <body>
-    <section class="render-view" aria-label="Three.js scene"></section>
+    <main class="render-view" aria-label="Three.js forest scene"></main>
     <script type="module" src="main.js"></script>
 </body>
 </html>
