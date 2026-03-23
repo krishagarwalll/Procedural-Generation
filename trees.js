@@ -29,15 +29,10 @@ export function applyLeafColour(entry, treeColor) {
     entry.material.color.offsetHSL(entry.hueOffset, 0, entry.lightnessOffset);
 }
 
-export function randomRange(min, max) {
-    // Core procedural helper built directly on Math.random().
-    return min + Math.random() * (max - min);
-}
-
 function buildPineTree(parent, height, trunkColor, foliageEntries) {
     // Math.random() varies trunk proportions so each pine is slightly different.
-    const trunkHeight = height * randomRange(0.28, 0.38);
-    const trunkRadius = height * randomRange(0.055, 0.08);
+    const trunkHeight = height * (0.28 + Math.random() * 0.1);
+    const trunkRadius = height * (0.055 + Math.random() * 0.025);
     const trunk = createCylinderMesh(
         trunkRadius * 0.7,
         trunkRadius,
@@ -50,9 +45,8 @@ function buildPineTree(parent, height, trunkColor, foliageEntries) {
     const crownCount = 3;
 
     for (let index = 0; index < crownCount; index += 1) {
-        // Math.random() tweaks cone sizes to keep the tree layers procedural.
-        const coneHeight = height * randomRange(0.26, 0.34);
-        const coneRadius = height * randomRange(0.16, 0.24) * (1.05 - index * 0.16);
+        const coneHeight = height * (0.26 + Math.random() * 0.08);
+        const coneRadius = height * (0.16 + Math.random() * 0.08) * (1.05 - index * 0.16);
         const cone = createConeMesh(coneRadius, coneHeight, createLeafMaterial(foliageEntries));
         cone.position.y = trunkHeight + coneHeight * 0.45 + index * coneHeight * 0.28;
         parent.add(cone);
@@ -60,8 +54,8 @@ function buildPineTree(parent, height, trunkColor, foliageEntries) {
 }
 
 function buildRoundTree(parent, height, trunkColor, foliageEntries) {
-    const trunkHeight = height * randomRange(0.42, 0.56);
-    const trunkRadius = height * randomRange(0.06, 0.085);
+    const trunkHeight = height * (0.42 + Math.random() * 0.14);
+    const trunkRadius = height * (0.06 + Math.random() * 0.025);
     const trunk = createCylinderMesh(
         trunkRadius * 0.75,
         trunkRadius,
@@ -79,7 +73,7 @@ function buildRoundTree(parent, height, trunkColor, foliageEntries) {
 
     canopyOffsets.forEach((offset) => {
         // Math.random() adds small shape changes to the round canopy pieces.
-        const radius = height * randomRange(0.16, 0.24) * offset.scale;
+        const radius = height * (0.16 + Math.random() * 0.08) * offset.scale;
         const canopy = createSphereMesh(radius, createLeafMaterial(foliageEntries));
         canopy.position.set(offset.x, offset.y, offset.z);
         parent.add(canopy);
@@ -87,8 +81,8 @@ function buildRoundTree(parent, height, trunkColor, foliageEntries) {
 }
 
 function buildDeadTree(parent, height, trunkColor) {
-    const trunkHeight = height * randomRange(0.75, 0.92);
-    const trunkRadius = height * randomRange(0.05, 0.07);
+    const trunkHeight = height * (0.75 + Math.random() * 0.17);
+    const trunkRadius = height * (0.05 + Math.random() * 0.02);
     const trunk = createCylinderMesh(
         trunkRadius * 0.35,
         trunkRadius,
@@ -101,7 +95,7 @@ function buildDeadTree(parent, height, trunkColor) {
     const branchCount = 3;
 
     for (let index = 0; index < branchCount; index += 1) {
-        const branchLength = height * randomRange(0.22, 0.32);
+        const branchLength = height * (0.22 + Math.random() * 0.1);
         const branch = createCylinderMesh(
             trunkRadius * 0.18,
             trunkRadius * 0.26,
@@ -109,11 +103,11 @@ function buildDeadTree(parent, height, trunkColor) {
             trunkColor
         );
 
-        branch.position.y = trunkHeight * randomRange(0.45, 0.85);
+        branch.position.y = trunkHeight * (0.45 + Math.random() * 0.4);
         // Math.random() sets irregular branch angles for a rough dead-tree silhouette.
-        branch.rotation.z = randomRange(-1.2, 1.2);
-        branch.rotation.x = randomRange(-0.35, 0.35);
-        branch.rotation.y = (index / branchCount) * Math.PI * 2 + randomRange(-0.35, 0.35);
+        branch.rotation.z = -1.2 + Math.random() * 2.4;
+        branch.rotation.x = -0.35 + Math.random() * 0.7;
+        branch.rotation.y = (index / branchCount) * Math.PI * 2 + (-0.35 + Math.random() * 0.7);
         parent.add(branch);
     }
 }
@@ -128,9 +122,9 @@ function createLeafMaterial(foliageEntries) {
     const entry = {
         material,
         // Math.random() stores a unique palette offset for each canopy piece.
-        mixOffset: randomRange(-0.18, 0.18),
-        hueOffset: randomRange(-0.02, 0.02),
-        lightnessOffset: randomRange(-0.07, 0.07)
+        mixOffset: -0.18 + Math.random() * 0.36,
+        hueOffset: -0.02 + Math.random() * 0.04,
+        lightnessOffset: -0.07 + Math.random() * 0.14
     };
 
     foliageEntries.push(entry);
@@ -140,7 +134,7 @@ function createLeafMaterial(foliageEntries) {
 function getTrunkColor() {
     const trunkColor = new THREE.Color("#6d4c41");
     // Math.random() shifts the trunk shade a little for procedural bark variation.
-    trunkColor.offsetHSL(randomRange(-0.01, 0.01), 0, randomRange(-0.06, 0.03));
+    trunkColor.offsetHSL(-0.01 + Math.random() * 0.02, 0, -0.06 + Math.random() * 0.09);
     return trunkColor;
 }
 

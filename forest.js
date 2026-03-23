@@ -1,5 +1,5 @@
 import { FOREST_SIZE } from "./setup.js";
-import { applyLeafColour, createTree, randomRange } from "./trees.js";
+import { applyLeafColour, createTree } from "./trees.js";
 
 export function createForestManager(forestGroup) {
     const swayTargets = [];
@@ -25,9 +25,9 @@ export function createForestManager(forestGroup) {
             // Math.random() chooses a tree style from the enabled user options.
             const treeType = enabledTypes[Math.floor(Math.random() * enabledTypes.length)];
 
-            // Math.random() picks a height inside the current min/max range.
-            const treeHeight = randomRange(settings.minHeight, settings.maxHeight);
-            const footprintRadius = 0.8 + treeHeight * randomRange(0.1, 0.18);
+            const treeHeight =
+                settings.minHeight + Math.random() * (settings.maxHeight - settings.minHeight);
+            const footprintRadius = 0.8 + treeHeight * (0.1 + Math.random() * 0.08);
             const position = findOpenPosition(footprintRadius, placements);
 
             if (!position) {
@@ -37,7 +37,6 @@ export function createForestManager(forestGroup) {
             const tree = createTree(treeType, treeHeight);
 
             tree.root.position.set(position.x, 0, position.z);
-            // Math.random() gives each tree a different facing direction.
             tree.root.rotation.y = Math.random() * Math.PI * 2;
 
             placements.push({
@@ -53,8 +52,8 @@ export function createForestManager(forestGroup) {
             swayTargets.push({
                 group: tree.swayGroup,
                 // Math.random() varies the wind response so trees do not sway in sync.
-                speed: randomRange(0.7, 1.4),
-                amount: randomRange(0.018, 0.05),
+                speed: 0.7 + Math.random() * 0.7,
+                amount: 0.018 + Math.random() * 0.032,
                 phase: Math.random() * Math.PI * 2
             });
 
@@ -111,9 +110,8 @@ export function createForestManager(forestGroup) {
         const halfSize = FOREST_SIZE / 2;
 
         for (let attempt = 0; attempt < 40; attempt += 1) {
-            // Math.random() spreads candidate trees across the fixed forest area.
-            const x = randomRange(-halfSize, halfSize);
-            const z = randomRange(-halfSize, halfSize);
+            const x = -halfSize + Math.random() * (halfSize * 2);
+            const z = -halfSize + Math.random() * (halfSize * 2);
 
             const overlaps = placements.some((placement) => {
                 const dx = placement.x - x;
