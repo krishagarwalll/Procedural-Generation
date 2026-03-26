@@ -22,7 +22,6 @@ export function createForestManager(forestGroup) {
         const placements = [];
 
         for (let index = 0; index < settings.treeCount; index += 1) {
-            // Math.random() chooses a tree style from the enabled user options.
             const treeType = enabledTypes[Math.floor(Math.random() * enabledTypes.length)];
 
             const treeHeight =
@@ -51,7 +50,7 @@ export function createForestManager(forestGroup) {
 
             swayTargets.push({
                 group: tree.swayGroup,
-                // Math.random() varies the wind response so trees do not sway in sync.
+
                 speed: 0.7 + Math.random() * 0.7,
                 amount: 0.018 + Math.random() * 0.032,
                 phase: Math.random() * Math.PI * 2

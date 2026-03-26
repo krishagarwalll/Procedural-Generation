@@ -30,7 +30,6 @@ export function applyLeafColour(entry, treeColor) {
 }
 
 function buildPineTree(parent, height, trunkColor, foliageEntries) {
-    // Math.random() varies trunk proportions so each pine is slightly different.
     const trunkHeight = height * (0.28 + Math.random() * 0.1);
     const trunkRadius = height * (0.055 + Math.random() * 0.025);
     const trunk = createCylinderMesh(
